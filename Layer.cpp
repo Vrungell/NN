@@ -27,7 +27,7 @@ void Layer::MakeInputValue(std::vector<float>value){
 std::vector<float> Layer::GetInputValue(){
     return this->input_value;
 }
-7
+
 void Layer::CountingNET(){
     for (int i = 0; i < number_of_neurons; i++)
         for (int j = 0; j < number_of_neurons_previous; j++)
@@ -60,6 +60,10 @@ void Layer::Error(int number_of_layer, MLP &mlp){
         for (int i = 0; i < number_of_neurons; i++)
             errors[i] = neurons[i] * (1 - neurons[i]) * mlp.GetLayer(3).GetErrors();//что изменить?
     }
+}
+
+void Layer::MakeExpectedValue(std::vector<float>value){
+    expected_value = value;
 }
 
 void Layer::CountingDw(){
