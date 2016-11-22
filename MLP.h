@@ -8,7 +8,7 @@ private:
     std::vector<Layer>layers;
     float general_error;
     float epsilon;
-    int number_of_learning_sets;
+    int number_of_learning_sets = 10;
     int number_of_eras;
 public:
     std::vector<float> expected_value;
