@@ -19,7 +19,7 @@ void MLP::Start(std::vector<float> image){
 
 void MLP::BackPropagation(MLP mlp){
     for (int i = 2; i >= 0; i--){
-        layers[i].Error(i + 1, &mlp);
+        layers[i].Error(i + 1, mlp);
         layers[i].CountingDw();
         layers[i].ChangeWeights();
     }
