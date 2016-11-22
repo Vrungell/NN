@@ -3,11 +3,33 @@
 
 #include "stdafx.h"
 #include <iostream>
-#include "core.h"
+#include "MLP.h"
+#include "Layer.h"
 #include <vector>
+
+using namespace std; 
 
 int _tmain(int argc, _TCHAR* argv[])
 {
+    int neurons_number[3] = { 2, 10, 1 };
+    MLP mlp(neurons_number);
+    int j = 0;//counting number of iterations
+    while (mlp.LearningIsOK() && mlp.GetEndOfEraTimes()<10) //или эпохи прошли какое-то количество раз
+    {
+        vector<float>image;
+        float value;
+        while (image.size() < 2){
+            cin >> value;
+            image.push_back(value);
+        }
+   
+        j++;
+        //считываем картинку
+        mlp.Start(image);
+        mlp.BackPropagation(mlp);
+        mlp.CountingGeneralError();
+        mlp.EndOfEra(j);
+    }
     return 0;
 }
 
