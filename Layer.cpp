@@ -8,6 +8,12 @@ Layer::Layer(int number, int previous_number, int layernumber)
     number_of_layer = layernumber;
     number_of_neurons = number;
     number_of_neurons_previous = previous_number;
+    errors.resize(number_of_neurons);
+    neurons.resize(number_of_neurons);
+    weights.resize(number_of_neurons);
+    dweights.resize(number_of_neurons);
+    for (int i = 0; i < number; i++)
+        weights[i].resize(previous_number);
     for (int i = 0; i < number; i++)
         for (int j = 0; j < previous_number; j++)
         weights[i][j] = rand();
