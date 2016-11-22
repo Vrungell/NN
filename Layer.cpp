@@ -44,7 +44,7 @@ std::vector<float> Layer::GetNeuronsValue(){
 }
 
 float Layer::GetErrors(){
-    float sum;
+    float sum = 0;
     for (int i = 0; i < number_of_layer; i++)
         for (int j = 0; j < number_of_neurons_previous; j++)
             sum = sum + errors[i] * weights[i][j];
