@@ -12,6 +12,7 @@ private:
     static float learning_rate;
     std::vector<float>dweights;
     std::vector<std::vector<float>>weights;
+
     std::vector<float>NET;
     std::vector<float>neurons;//value of activation
     std::vector<float>errors;
@@ -21,9 +22,11 @@ public:
     Layer(int number, int previous_number, int layernumber);
     std::vector<float>input_value;
     void MakeInputValue(std::vector<float>value);
+    void Start(std::vector<float>image);
     void CountingNET();
     void CountingActivation();
-    void Error(int number_of_layer, MLP mlp);
+    std::vector<float> GetNeuronsValue();
+    void Error(int number_of_layer, MLP &mlp);
     std::vector<float> GetInputValue();
     std::vector<float> GetNET();
     float Layer::GetErrors();
