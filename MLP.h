@@ -8,10 +8,10 @@ class MLP
 private:
     int number_of_layers;
     std::vector<Layer>layers;
-    float general_error;
-    float epsilon;
+    float general_error = 0;
+    float epsilon = 0.1;
     int number_of_learning_sets = 10;
-    int number_of_eras;
+    int number_of_eras = 0;
 public:
     std::vector<float> expected_value;
     Layer GetLayer(int layernumber);
