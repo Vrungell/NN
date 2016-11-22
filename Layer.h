@@ -22,6 +22,7 @@ public:
     Layer(int number, int previous_number, int layernumber);
     std::vector<float>input_value;
     void MakeInputValue(std::vector<float>value);
+    void MakeExpectedValue(std::vector<float>value);
     void Start(std::vector<float>image);
     void CountingNET();
     void CountingActivation();
