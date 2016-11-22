@@ -9,12 +9,17 @@ private:
     float general_error;
     float epsilon;
     int number_of_learning_sets;
+    int number_of_eras;
 public:
     std::vector<float> expected_value;
     Layer GetLayer(int layernumber);
+    void Start(std::vector<float> image);
     void CountingGeneralError();
     bool LearningIsOK();
-    MLP();
+    void EndOfEra(int number);
+    void BackPropagation(MLP mlp);
+    MLP(int neurons_in_a_layer[2]);
+    int GetEndOfEraTimes();
     ~MLP();
 };
 
