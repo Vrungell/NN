@@ -1,15 +1,17 @@
 #pragma once
 #include<vector>
 #include "MLP.h"
+class MLP;
+
 class Layer
 {
 private:
     int number_of_neurons;
     int number_of_neurons_previous;
     int number_of_layer;
-    static float alpha;//for activation
-    static float delta, gamma;//for shake
-    static float learning_rate;
+    float alpha = 0.1;//for activation
+    float delta, gamma;//for shake
+    float learning_rate = 0.1;
     std::vector<float>dweights;
     std::vector<std::vector<float>>weights;
 
@@ -30,9 +32,9 @@ public:
     void Error(int number_of_layer, MLP &mlp);
     std::vector<float> GetInputValue();
     std::vector<float> GetNET();
-    float Layer::GetErrors();
-    void Layer::CountingDw();
-    void Layer::ChangeWeights();
+    float GetErrors();
+    void CountingDw();
+    void ChangeWeights();
     ~Layer();
 };
 
