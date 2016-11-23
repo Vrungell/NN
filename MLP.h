@@ -6,7 +6,7 @@ class Layer;
 class MLP
 {
 private:
-    int number_of_layers;
+    int number_of_layers = 3;
     std::vector<Layer>layers;
     float general_error = 0;
     float epsilon = 0.1;
