@@ -14,7 +14,7 @@ int _tmain(int argc, _TCHAR* argv[])
     int neurons_number[3] = { 1, 10, 1 };
     MLP mlp(neurons_number);
     int j = 0;//counting number of iterations
-    while (mlp.LearningIsOK() && mlp.GetEndOfEraTimes()<10) //или эпохи прошли какое-то количество раз
+    while (mlp.LearningIsOK() && mlp.GetEndOfEraTimes()<10) 
     {
         vector<float>image;
         float value;
