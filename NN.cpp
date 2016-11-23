@@ -18,17 +18,21 @@ int _tmain(int argc, _TCHAR* argv[])
     {
         vector<float>image;
         float value;
+
         while (image.size() < 1){
             cin >> value;
             image.push_back(value);
         }
    
         j++;
-        //считываем картинку
         mlp.Start(image);
-        cin >> value;
         vector<float> Evalue;
-        Evalue.push_back(value);
+
+        while (Evalue.size() < 1){
+            cin >> value;
+            Evalue.push_back(value);
+        }
+
         mlp.GetLayer(3).MakeExpectedValue(Evalue);
         mlp.BackPropagation(mlp);
         mlp.CountingGeneralError();
