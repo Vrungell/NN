@@ -1,6 +1,7 @@
 #pragma once
 #include<vector>
 #include "MLP.h"
+#include <cmath>
 class MLP;
 
 class Layer
@@ -14,7 +15,6 @@ private:
     float learning_rate = 0.1;
     std::vector<float>dweights;
     std::vector<std::vector<float>>weights;
-
     std::vector<float>NET;
     std::vector<float>neurons;//value of activation
     std::vector<float>errors;
