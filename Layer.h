@@ -23,15 +23,15 @@ private:
 public:
     Layer(int number, int previous_number, int layernumber);
     std::vector<float>input_value;
-    void MakeInputValue(std::vector<float>value);
-    void MakeExpectedValue(std::vector<float>value);
-    void Start(std::vector<float>image);
+    void MakeInputValue(std::vector<float>&value);
+    void MakeExpectedValue(std::vector<float>&value);
+    void Start(std::vector<float>&image);
     void CountingNET();
     void CountingActivation();
-    std::vector<float> GetNeuronsValue();
+    std::vector<float>& GetNeuronsValue();
     void Error(int number_of_layer, MLP &mlp);
-    std::vector<float> GetInputValue();
-    std::vector<float> GetNET();
+    std::vector<float>& GetInputValue();
+    std::vector<float>& GetNET();
     float GetErrors();
     void CountingDw();
     void ChangeWeights();
