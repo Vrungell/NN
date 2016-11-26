@@ -17,15 +17,15 @@ void MLP::Start(std::vector<float> image){
     layers[2].Start(layers[1].GetNeuronsValue());
 }
 
-void MLP::BackPropagation(MLP mlp){
-    for (int i = 2; i >= 0; i--){
+void MLP::BackPropagation(MLP mlp){ 
+    for (int i = 2; i >= 0; i--){  
         layers[i].Error(i + 1, mlp);
         layers[i].CountingDw();
         layers[i].ChangeWeights();
     }
 }
 
-Layer MLP::GetLayer(int layernumber){
+Layer &MLP::GetLayer(int layernumber){
     return this->layers[layernumber-1];
 }
 
