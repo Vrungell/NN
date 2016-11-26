@@ -3,6 +3,7 @@
 #include "Layer.h"
 #include "MLP.h"
 #include <cmath>
+#include <algorithm>
 
 Layer::Layer(int number, int previous_number, int layernumber)
 {
@@ -18,18 +19,18 @@ Layer::Layer(int number, int previous_number, int layernumber)
         weights[i][j] = rand();
 }
 
-void Layer::Start(std::vector<float>image){
+void Layer::Start(std::vector<float>&image){
     MakeInputValue(image);
     CountingNET();
     CountingActivation();
 }
 
-void Layer::MakeInputValue(std::vector<float>value){
+void Layer::MakeInputValue(std::vector<float>&value){
     for (int i = 0; i < value.size(); i++)
         input_value.push_back(value[i]);
 } 
 
-std::vector<float> Layer::GetInputValue(){
+std::vector<float>& Layer::GetInputValue(){
     return this->input_value;
 }
 
@@ -44,7 +45,7 @@ void Layer::CountingActivation(){
         neurons.push_back(1 / (1 + exp(alpha*NET[i])));
 }
 
-std::vector<float> Layer::GetNeuronsValue(){
+std::vector<float> &Layer::GetNeuronsValue(){
     return this->neurons;
 }
 
@@ -52,7 +53,7 @@ float Layer::GetErrors(){
     float sum = 0;
     for (int i = 0; i < number_of_layer; i++)
         for (int j = 0; j < number_of_neurons_previous; j++)
-            sum = sum + errors[i] * weights[i][j];
+            sum = sum + errors[i] * weights[i][j]; 
     return sum;
 }
 
@@ -63,13 +64,13 @@ void Layer::Error(int number_of_layer, MLP &mlp){
     }
     else { 
         for (int i = 0; i < number_of_neurons; i++)
-            errors.push_back(neurons[i] * (1 - neurons[i]) * mlp.GetLayer(3).GetErrors());//что изменить?
+            errors.push_back(neurons[i] * (1 - neurons[i]) * mlp.GetLayer(3).GetErrors());//что изменить? ответ:ты добавила что-то в errors после того
+                                                                                                          // в старой сети есть элементы в errors и в expected_value , а в копии - только в exppected_valye
     }
 }
 
-void Layer::MakeExpectedValue(std::vector<float>value){
-    for (int i = 0; i < value.size(); i++)
-        expected_value.push_back(value[i]);
+void Layer::MakeExpectedValue(std::vector<float> & value){
+    expected_value = value;
 }
 
 void Layer::CountingDw(){
@@ -83,7 +84,7 @@ void Layer::ChangeWeights(){
             weights[i][j] =  weights[i][j] + alpha*dweights[i];
 }
 
-std::vector<float> Layer::GetNET(){
+std::vector<float> &Layer::GetNET(){
     return this->NET;
 }
 
