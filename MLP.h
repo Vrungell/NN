@@ -14,7 +14,7 @@ private:
     int number_of_eras = 0;
 public:
     std::vector<float> expected_value;
-    Layer GetLayer(int layernumber);
+    Layer &GetLayer(int layernumber);
     void Start(std::vector<float> image);
     void CountingGeneralError();
     bool LearningIsOK();
