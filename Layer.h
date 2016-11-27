@@ -25,14 +25,14 @@ public:
     std::vector<float>input_value;
     void MakeInputValue(std::vector<float>&value);
     void MakeExpectedValue(std::vector<float>&value);
-    void Start(std::vector<float>&image);
-    void CountingNET();
+    void Start(std::vector<float>&image, MLP mlp);
+    void CountingNET(MLP mlp);
     void CountingActivation();
     std::vector<float>& GetNeuronsValue();
     void Error(int number_of_layer, MLP &mlp);
     std::vector<float>& GetInputValue();
     std::vector<float>& GetNET();
-    float GetErrors();
+    float &GetErrors();
     void CountingDw();
     void ChangeWeights();
     ~Layer();
