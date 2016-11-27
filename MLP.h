@@ -19,7 +19,7 @@ public:
     void CountingGeneralError();
     bool LearningIsOK();
     void EndOfEra(int number);
-    void BackPropagation(MLP mlp);
+    void BackPropagation(); // no MLP
     MLP(int neurons_in_a_layer[2]);
     int GetEndOfEraTimes();
     ~MLP();
