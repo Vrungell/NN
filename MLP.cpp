@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MLP.h"
 #include "Layer.h"
+#include <iostream>
 MLP::MLP(int neurons_in_a_layer[2])
 {
     Layer layer1(neurons_in_a_layer[0], 0, 1);
@@ -12,14 +13,14 @@ MLP::MLP(int neurons_in_a_layer[2])
 }
 
 void MLP::Start(std::vector<float> image){
-    layers[0].Start(image);
-    layers[1].Start(layers[0].GetNeuronsValue());
-    layers[2].Start(layers[1].GetNeuronsValue());
+    layers[0].Start(image, *this);
+    layers[1].Start(layers[0].GetNeuronsValue(), *this);
+    layers[2].Start(layers[1].GetNeuronsValue(), *this);
 }
 
-void MLP::BackPropagation(MLP mlp){ 
-    for (int i = 2; i >= 0; i--){  
-        layers[i].Error(i + 1, mlp);
+void MLP::BackPropagation(){ 
+    for (int i = 2; i > 0; i--){  
+        layers[i].Error(i + 1, *this); // mlp -> *this
         layers[i].CountingDw();
         layers[i].ChangeWeights();
     }
@@ -31,7 +32,7 @@ Layer &MLP::GetLayer(int layernumber){
 
 void MLP::CountingGeneralError(){
     general_error = 0;
-    for (int i = 0; i < 3; i++)
+    for (int i = 1; i < 3; i++)
         general_error = general_error + this->layers[i].GetErrors();
 }
 
