@@ -27,16 +27,12 @@ int _tmain(int argc, _TCHAR* argv[])
         j++;
         mlp.Start(image);
         vector<float> Evalue;
-
-        while (Evalue.size() < 1){
-            cin >> value;
-            Evalue.push_back(value);
-        }
-
+        Evalue.push_back(sin(value));
         mlp.GetLayer(3).MakeExpectedValue(Evalue);
-        mlp.BackPropagation(mlp);
+        mlp.BackPropagation();
         mlp.CountingGeneralError();
         mlp.EndOfEra(j);
+        cout << mlp.GetLayer(3).GetNeuronsValue()[0] << endl;
     }
     return 0;
 }
