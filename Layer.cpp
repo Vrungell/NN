@@ -19,9 +19,9 @@ Layer::Layer(int number, int previous_number, int layernumber)
         weights[i][j] = rand();
 }
 
-void Layer::Start(std::vector<float>&image){
+void Layer::Start(std::vector<float>&image, MLP mlp){
     MakeInputValue(image);
-    CountingNET();
+    CountingNET(mlp);
     CountingActivation();
 }
 
@@ -34,37 +34,49 @@ std::vector<float>& Layer::GetInputValue(){
     return this->input_value;
 }
 
-void Layer::CountingNET(){
-    for (int i = 0; i < number_of_neurons; i++)
-        for (int j = 0; j < number_of_neurons_previous; j++)
-            NET[i] = NET[i] + weights[i][j] * input_value[j];
+void Layer::CountingNET(MLP mlp){//как поменять для первого слоя? (nnp = 0)
+    if (this->number_of_layer != 1){
+        for (int i = 0; i < number_of_neurons; i++)
+            for (int j = 0; j < number_of_neurons_previous; j++)
+                NET[i] = NET[i] + weights[i][j] * mlp.GetLayer(number_of_layer -1).neurons[j];
+    }
+    else
+        for (int i = 0; i < number_of_neurons; i++)
+            NET[i] = input_value[i];
 }
 
 void Layer::CountingActivation(){
-    for (int i = 0; i < number_of_neurons; i++)
-        neurons.push_back(1 / (1 + exp(alpha*NET[i])));
+    if (this->number_of_layer !=1){//Надо сделать так, чтобы без 3(а вдруг +скрытый слой)
+        for (int i = 0; i < number_of_neurons; i++)
+            neurons.push_back(1 / (1 + exp(alpha*NET[i])));
+    }
+    else
+        for (int i = 0; i < number_of_neurons; i++)
+            neurons.push_back(NET[i]);
 }
 
 std::vector<float> &Layer::GetNeuronsValue(){
     return this->neurons;
 }
 
-float Layer::GetErrors(){
+float &Layer::GetErrors(){
     float sum = 0;
-    for (int i = 0; i < number_of_layer; i++)
-        for (int j = 0; j < number_of_neurons_previous; j++)
-            sum = sum + errors[i] * weights[i][j]; 
+    if (this->number_of_layer != 1){
+        for (int i = 0; i < number_of_neurons; i++)
+            for (int j = 0; j < number_of_neurons_previous; j++)
+                sum = sum + errors[i] * weights[i][j];
+    }
     return sum;
 }
 
-void Layer::Error(int number_of_layer, MLP &mlp){
-    if (number_of_layer == 3) {
+void Layer::Error(int number_of_layer, MLP &mlp){//Вот это вообще не очень функция ПОЧЕМУ У ВТОРОГО СЛОЯ НЕ СЧИТАЮТСЯ ОШИБКИ КАРЛ
+    if (number_of_layer == 3) {//без 3
         for (int i = 0; i < number_of_neurons; i++)
-            errors.push_back((expected_value[i] - neurons[i])* neurons[i] * (1 - neurons[i]));
+            errors.push_back((expected_value[i] - neurons[i])* neurons[i] * (1 - neurons[i]));//почему не работает push_back?
     }
     else { 
         for (int i = 0; i < number_of_neurons; i++)
-            errors.push_back(neurons[i] * (1 - neurons[i]) * mlp.GetLayer(3).GetErrors());//что изменить? ответ:ты добавила что-то в errors после того
+            errors.push_back(neurons[i] * (1 - neurons[i]) * mlp.GetLayer(number_of_layer+1).GetErrors());//что изменить? ответ:ты добавила что-то в errors после того
                                                                                                           // в старой сети есть элементы в errors и в expected_value , а в копии - только в exppected_valye
     }
 }
@@ -75,7 +87,7 @@ void Layer::MakeExpectedValue(std::vector<float> & value){
 
 void Layer::CountingDw(){
     for (int i = 0; i < number_of_neurons; i++)
-        dweights.push_back(learning_rate * input_value[i] * errors[i]);
+        dweights.push_back(learning_rate * neurons[i] * errors[i]);//что должно стоять вместо input_value?
 }
 
 void Layer::ChangeWeights(){
