@@ -1,8 +1,9 @@
 #include "stdafx.h"
+#include <iostream>
 #include <vector>
 #include "Layer.h"
 #include "MLP.h"
-#include <cmath>
+#include <math.h>
 #include <algorithm>
 
 Layer::Layer(int number, int previous_number, int layernumber)
@@ -16,7 +17,11 @@ Layer::Layer(int number, int previous_number, int layernumber)
         weights[i].resize(previous_number);
     for (int i = 0; i < number; i++)
         for (int j = 0; j < previous_number; j++)
-        weights[i][j] = rand()%2;
+        {
+            int x = rand();
+            int y = rand();
+            weights[i][j] = (float)std::min(x,y)/std::max(x,y);
+        }
 }
 
 void Layer::Start(std::vector<float>&image, MLP mlp){
