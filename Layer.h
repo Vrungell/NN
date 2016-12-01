@@ -7,9 +7,9 @@ class MLP;
 class Layer
 {
 private:
-    int number_of_neurons;
-    int number_of_neurons_previous;
-    int number_of_layer;
+    int number_of_neurons = 0;
+    int number_of_neurons_previous = 0;
+    int number_of_layer = 0;
     float alpha = 0.1;//for activation
     float delta, gamma;//for shake
     float learning_rate = 0.1;
@@ -18,8 +18,7 @@ private:
     std::vector<float>NET;
     std::vector<float>neurons;//value of activation
     std::vector<float>errors;
-    std::vector<float>expected_value;
-
+   
 public:
     Layer(int number, int previous_number, int layernumber);
     std::vector<float>input_value;
@@ -35,6 +34,7 @@ public:
     float &GetErrors();
     void CountingDw();
     void ChangeWeights();
+    void ClearLayer();
     ~Layer();
 };
 
