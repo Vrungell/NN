@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MLP.h"
 #include "Layer.h"
+#include <fstream>
 #include <iostream>
 MLP::MLP(int neurons_in_a_layer[2])
 {
@@ -44,7 +45,10 @@ bool MLP::LearningIsOK(){
 }
 
 void MLP::EndOfEra(int number){
-    if (number == number_of_learning_sets) number_of_eras++;
+    if (number%number_of_learning_sets == 0) {
+        number_of_eras++;
+
+    }
 }
 
 int MLP::GetEndOfEraTimes(){
