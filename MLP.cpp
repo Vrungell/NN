@@ -37,8 +37,10 @@ void MLP::CountingGeneralError(){
 }
 
 bool MLP::LearningIsOK(){
-    if (general_error < epsilon) return true;
-    else return false;
+    if (general_error < epsilon) number_of_good_tests++;
+    else number_of_good_tests = 0;
+    if (number_of_good_tests == 10) return true;
+    return false;
 }
 
 void MLP::EndOfEra(int number){
@@ -48,5 +50,12 @@ void MLP::EndOfEra(int number){
 int MLP::GetEndOfEraTimes(){
     return this->number_of_eras;
 }
+
+void MLP::ClearLayers(){
+    layers[0].ClearLayer();
+    layers[1].ClearLayer();
+    layers[2].ClearLayer();
+}
 MLP::~MLP()
-{}
+{
+}
