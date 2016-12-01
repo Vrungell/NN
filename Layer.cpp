@@ -10,13 +10,13 @@ Layer::Layer(int number, int previous_number, int layernumber)
     number_of_layer = layernumber;
     number_of_neurons = number;
     number_of_neurons_previous = previous_number;
-    weights.resize(number_of_neurons);
     NET.resize(number_of_neurons);
+    weights.resize(number_of_neurons);
     for (int i = 0; i < number; i++)
         weights[i].resize(previous_number);
     for (int i = 0; i < number; i++)
         for (int j = 0; j < previous_number; j++)
-        weights[i][j] = rand();
+        weights[i][j] = rand()%2;
 }
 
 void Layer::Start(std::vector<float>&image, MLP mlp){
@@ -49,6 +49,7 @@ void Layer::CountingActivation(){
     if (this->number_of_layer !=1){//Ќадо сделать так, чтобы без 3(а вдруг +скрытый слой)
         for (int i = 0; i < number_of_neurons; i++)
             neurons.push_back(1 / (1 + exp(alpha*NET[i])));
+
     }
     else
         for (int i = 0; i < number_of_neurons; i++)
@@ -72,17 +73,13 @@ float &Layer::GetErrors(){
 void Layer::Error(int number_of_layer, MLP &mlp){//¬от это вообще не очень функци€ ѕќ„≈ћ” ” ¬“ќ–ќ√ќ —Ћќя Ќ≈ —„»“јё“—я ќЎ»Ѕ »  ј–Ћ
     if (number_of_layer == 3) {//без 3
         for (int i = 0; i < number_of_neurons; i++)
-            errors.push_back((expected_value[i] - neurons[i])* neurons[i] * (1 - neurons[i]));//почему не работает push_back?
+            errors.push_back((mlp.expected_value[i] - neurons[i])* neurons[i] * (1 - neurons[i]));//почему не работает push_back?
     }
     else { 
         for (int i = 0; i < number_of_neurons; i++)
             errors.push_back(neurons[i] * (1 - neurons[i]) * mlp.GetLayer(number_of_layer+1).GetErrors());//что изменить? ответ:ты добавила что-то в errors после того
                                                                                                           // в старой сети есть элементы в errors и в expected_value , а в копии - только в exppected_valye
     }
-}
-
-void Layer::MakeExpectedValue(std::vector<float> & value){
-    expected_value = value;
 }
 
 void Layer::CountingDw(){
@@ -93,11 +90,18 @@ void Layer::CountingDw(){
 void Layer::ChangeWeights(){
     for (int i = 0; i < number_of_neurons; i++)
         for (int j = 0; j < number_of_neurons_previous; j++)
-            weights[i][j] =  weights[i][j] + alpha*dweights[i];
+            weights[i][j] =  weights[i][j] - alpha*dweights[i];
 }
 
 std::vector<float> &Layer::GetNET(){
     return this->NET;
+}
+
+void Layer::ClearLayer(){
+    input_value.clear();
+    neurons.clear();
+    errors.clear();
+    dweights.clear();
 }
 
 Layer::~Layer(){}
