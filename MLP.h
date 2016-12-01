@@ -9,8 +9,8 @@ private:
     int number_of_layers = 3;
     std::vector<Layer>layers;
     float general_error = 1;
-    float epsilon = 0.1;
-    int number_of_learning_sets = 51;
+    float epsilon = 0.001;
+    int number_of_learning_sets = 51;//задается в зависимости от кол-ва обучающих примеров
     int number_of_eras = 0;
     int number_of_good_tests = 0;
  public:
